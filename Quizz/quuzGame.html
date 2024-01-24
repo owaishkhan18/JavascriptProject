@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz game </title>
+     <style>
+         body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+
+    nav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .quiz-box{
+
+        /* border: 1px solid red; */
+        align-items: center;
+        margin: auto;
+        width: 20%;
+        top: 100px;
+        display: flex;
+        /* position: absolute; */
+        /* top: 100px; */
+        /* left: 100px; */
+        margin-top: 20%;
+        justify-content: center;
+        background-color: #333;
+       color: #ddd;
+       border-radius: 8px;
+       box-shadow: #2121;
+       border: 0.1px solid #ddd;
+       cursor: pointer;
+       transition: background-color 0.1s
+    }
+    .quiz-box:hover {
+      background-color: #3e8e41;
+      color: #ffffff;
+     
+    }
+    h1{
+        text-align: center;
+    }
+    .quiz-containerTwo {
+        position: absolute;
+        top: 150px;
+        right: 650px;
+        display: block;
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      list-style-type: none;
+      padding: 0;
+    }
+    .optionstwo{
+        display: none;
+    }
+    .option {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .option:hover {
+      background-color: #45a049;
+    }
+
+    #quesId{
+        display: none;
+
+    }
+    .quiz-container{
+        display: none;
+    }
+
+    #my-button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid #4CAF50;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    #my-button:active {
+      background-color: #3e8e41;
+      color: #ffffff;
+    }
+#nextBtnId{
+    display: none;
+}
+     </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <h1>Welcome to Quiz score game</h1>
+
+
+    <div class="quiz-box">
+        <h4>Click here to start the quiz</h4>
+    </div>
+
+   
+  <div  class="quiz-container">
+    <div id="question"></div>
+    <ul id="options" class="options">
+      
+    </ul>
+    <button  id="my-button">Next</button>
+  </div>
+    
+</body>
+<script>
+    const startBtton=document.querySelector('.quiz-box');
+    const QuizConatiner=document.querySelector('.quiz-container')
+    const queS=document.querySelector('#question');
+    const ul=document.querySelector('.options');
+    const nextBtn=document.querySelector('#my-button');
+    const StartQuiz=document.querySelector('.quiz-box');
+ 
+
+    var questions = [
+  {
+    question: "What is the capital of France?",
+    options: ["Berlin", "Madrid", "Paris", "Rome"],
+    correctAnswer: "Paris",
+    number:2
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Mars", "Jupiter", "Venus", "Saturn"],
+    correctAnswer: "Mars",
+    number:0
+  },
+  {
+    question: "What is the largest mammal?",
+    options: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+    correctAnswer: "Blue Whale",
+    number:1
+  },
+  {
+    question: "What does CPU stand for?",
+    options: ["Central Processing Unit", "Computer Personal Unit", "Central Process Unit", "Central Processor Unit"],
+    correctAnswer: "Central Processing Unit",
+    number:0
+  },
+  {
+    question: "Which programming language is known as the 'mother of all languages'?",
+    options: ["Java", "C", "Python", "Assembly"],
+    correctAnswer: "C",
+    number:1
+  },
+  {
+    question: "What is the purpose of HTML?",
+    options: ["HyperText Markup Language", "High-level Text Modeling Language", "HyperText Modeling Language", "High-level Markup Language"],
+    correctAnswer: "HyperText Markup Language",
+    number:0
+  },
+  {
+    question: "In computer science, what does 'GUI' stand for?",
+    options: ["Graphical User Interface", "General User Interface", "Graphical Unity Interface", "General Unity Interface"],
+    correctAnswer: "Graphical User Interface",
+    number:0
+  },
+  {
+    question: "What does the acronym 'URL' stand for?",
+    options: ["Universal Resource Locator", "Uniform Resource Locator", "Universal Reference Locator", "Uniform Reference Locator"],
+    correctAnswer: "Uniform Resource Locator",
+    number:0
+  }
+ 
+];
+
+StartQuiz.addEventListener('click',(e)=>{
+    QuizConatiner.className="quiz-containerTwo"
+}) 
+
+let inc=questions[0].options.length
+const  arr=[];
+let incre=0;
+function fill_the_question()
+{
+
+     queS.innerText=questions[incre].question 
+     let create=0;
+     ul.innerHTML=`<li class="option" id="0">${questions[incre].options[0]}</li>
+      <li class="option" id="1">${questions[incre].options[1]}</li>
+      <li class="option" id="2">${questions[incre].options[2]}</li>
+      <li class="option" id="3">${questions[incre].options[3]}</li>`
+     
+      const li=document.querySelectorAll('li');
+
+      li.forEach((element)=>{
+        element.addEventListener('click',(e)=>{
+       let num=parseInt(e.target.id);
+       arr.push(e.target.id);
+        })
+      })
+}
+fill_the_question();
+
+function showResult(value){
+    const div=document.createElement('div');
+    div.classList='result';
+    div.innerHTML=`<p>The total correct ans is to be ${value}`;
+    QuizConatiner.append(div);
+}
+
+let size=questions.length;
+let total=0;
+nextBtn.addEventListener('click',(e)=>{
+   
+    if(incre<size-1){
+        incre++;
+        console.log(incre)
+
+     fill_the_question();
+    }else {
+
+        ul.classList.remove('options')
+        ul.classList.add('optionstwo')
+        queS.id="quesId";
+        nextBtn.id="nextBtnId";
+
+        incre=0;
+        // console.log('hii this is that')
+        let i=0;
+        arr.forEach((val)=>{
+            if(val==questions[i].number){
+                total++;
+            }
+            // console.log("this is the array value "+val)
+            
+        })
+        showResult (total);
+        // console.log("the total correct ans is to be "+total)
+        return ;
+    }
+    
+})
+
+
+
+// console.log(incre)
+
+
+</script>
+</html>
+ 
