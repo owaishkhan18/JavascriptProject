@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+      <style>
+           body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+
+    nav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .game-conatiner{  
+
+        margin:  auto;
+        width: 40%;
+        border: 1px solid #2121;
+        height:300px;
+        /* width:400px */
+        border-radius: 8px;
+        border-color: #2121;
+        background: #2121;
+        box-shadow: 0px 0px 0px 1px #2121;
+        /* display: flex; */
+        /* align-items: center; */
+       /* justify-content: center; */
+
+    }
+    .fornt-sec{
+        border: 1px solid red;
+        /* display: flex; */
+        /* flex-direction: column; */
+        margin: auto;
+        width: 50%;
+    }
+    .input-container {
+        margin-top: 100px;
+        /* border: 1px solid red; */
+      display: flex;
+      justify-content: center;
+      /* align-items: center; */
+      /* justify-content: flex-end; */
+      margin-bottom: 20px;
+    }
+
+    /* Input styling */
+    input[type="text"] {
+      flex: 0;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px 0 0 4px;
+      font-size: 16px;
+    }
+    /* Button styling */
+    button {
+      padding: 10px 15px;
+      border: 1px solid #4CAF50;
+      border-radius: 0 4px 4px 0;
+      background-color: #4CAF50;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    /* Hover state for the button */
+    button:hover {
+      background-color: #45a049;
+    }
+    .danger{
+        background: rgb(225, 117, 117);
+        width: 40%;
+        margin: auto;
+        text-align: center;
+        padding: 2px;
+        border-radius: 4px;
+        /* align-items: center; */
+    }
+    .prev-guess{
+        border: 1px solid red;
+        margin: 50px auto;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+        width: 40%;
+    }
+    #showStatus{
+      margin-top: 10px;
+      color: red;
+    }
+    .game-containers{
+           display: none;
+        align-items: center;
+     margin: auto;
+     top: 0px;
+      width: 200px;
+      height: 200px;
+      /* background-color: lightblue; */
+      text-align: center;
+      line-height: 200px;
+      font-size: 18px;   
+    }
+    .game-container{
+     /* position: absolute; */
+     /* margin-top: 100px; */
+     /* margin: auto; */
+     /* width: 50%; */
+    display: block;
+     align-items: center;
+     margin: auto;
+     top: 0px;
+      width: 200px;
+      height: 200px;
+      /* background-color: lightblue; */
+      text-align: center;
+      line-height: 200px;
+      font-size: 18px;
+    }
+    #restart-button {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #restart-button:hover {
+      background-color: #45a049;
+    }
+    .remove{
+        display: none;
+    }
+    #gamehead{
+        text-align: center;
+        font-size: 1.2rem;
+      color: #292424;
+    }
+    .array-conatiner{
+        padding: 10px;
+        text-align: center;
+    }
+    .total-guess{
+        margin: auto;
+        width: 50%;
+        height: 50px;
+        width: 50px;
+        border: 1px solid red;
+        border-radius:30px ;
+    } 
+    h5{
+        text-align: center;
+    }
+  .prev-guess{
+    display: none;
+  }
+  .prev-guesst{
+    display: block;
+  }
+      </style>
+</head>
+<body>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </nav>
+      <h5>total remaning guess: </h5>
+      <div class="total-guess"></div>
+      <div class="prev-guess">
+      
+      </div>
+
+      <div class="game-conatiner">
+        <p id="gamehead">Guess the number between the 1 to 100</p>
+        <!-- Input container -->
+        <p class="dangers"></p>
+  <div class="input-container">
+    
+
+    <!-- Text input -->
+    <input type="text" placeholder="Guess the number " id="inputId">
+    <!-- Button -->
+    <button type="button" id="submitBtn">Guess</button>
+  </div>
+    <div class="array-conatiner">
+        <p>prevGuess: </p> 
+    </div>
+
+    <div class="game-containers">
+        <!-- Your game content goes here -->
+        <button id="restart-butto" >Restart Game</button>
+      </div>
+      </div>
+
+</body>
+<script>
+    const inputConatiner =document.querySelector('.input-container');
+   const input=document.querySelector("#inputId");
+    const submitBtn=document.querySelector('#submitBtn');
+    const danger =document.querySelector('.dangers');
+    const prevGuess=document.querySelector('.prev-guess');
+    const guessLine=document.querySelector('#guessLine');
+    const ArrayContainer =document.querySelector(".array-conatiner");
+    const paragraphInsideDiv= ArrayContainer.querySelector('p');
+    const resetCont=document.querySelector(".game-containers");
+    const resetBtn=document.querySelector("#restart-butto");
+
+    const TotalGuess=document.querySelector('.total-guess');
+    // console.log(paragraphInsideDiv);
+    let randomNumber =Math.floor( Math.random()*100)+1;
+    let totolChances=5;
+    let arr=[];
+    TotalGuess.innerHTML=`<a href="#section2">${totolChances}</a>`
+ let startGame=true;
+
+ console.log(randomNumber)
+ if(startGame){
+ submitBtn.addEventListener('click',(e)=>{
+   e.preventDefault();
+   const value=parseInt(input.value);
+  
+   if(isNaN(value) || value<1|| value >100){
+     console.log("please correct value");
+     showSatatus(value)
+   //  endgame(value);
+   }
+   else 
+  if(value==randomNumber){
+  
+   endGame(value);
+
+  }else if(value> randomNumber) {
+  totolChances--;
+    let number =value-randomNumber;
+    arr.push(value);
+    showSatatus(value);
+  }else 
+    {
+
+        totolChances--;
+       arr.push(value);
+      showSatatus( value);
+    }
+    if(totolChances==0){
+     console.log("hiii owaish ")
+       endGame(value);
+    }
+    showSatatus(value);
+
+ })
+ }
+ // this is the show status function 
+ const  hideShowStaues=()=>{
+    prevGuess.classList.remove('prev-guesst')
+        prevGuess.classList.add('prev-guess');
+ }
+  function showSatatus(value){
+      
+      if(value>randomNumber){
+
+       paragraphInsideDiv.innerHTML=`<a href="#section2">${arr}</a`;
+        prevGuess.classList.add('prev-guesst')
+        prevGuess.innerHTML='<div id="showStatus">Number is to much big</div>';
+        // console.log(guessLine)
+        setTimeout(hideShowStaues,5000);
+    }
+    else if(isNaN(value) || value<1|| value >100)
+    {  
+        prevGuess.classList.add('prev-guesst')
+        prevGuess.innerHTML='<div id="showStatus">Please Enter the valid number</div>';
+    }
+    else if(randomNumber==value){
+       
+        inputConatiner.classList.add("class",'remove');
+        resetCont.classList.add('game-container')
+        prevGuess.classList.add('prev-guesst')
+        paragraphInsideDiv.innerHTML=`<a href="#section2">${arr}</a`;
+        prevGuess.innerHTML='<div id="showStatus"> wow guess it !!!! </div>';
+        setTimeout(hideShowStaues,2000);
+        return;
+    } 
+    else{
+        prevGuess.classList.add('prev-guesst')
+        paragraphInsideDiv.innerHTML=`<a href="#section2">${arr}</a`;
+        prevGuess.innerHTML='<div id="showStatus">Number is to much small</div>';  
+    }
+    
+   TotalGuess.innerHTML=`<a href="#section2">${totolChances}</a`
+    input.value=''
+    // prevGuess.appendChild(p);
+  }
+ 
+ // here  the second function 
+  function endGame(value){
+      if(value===randomNumber){
+      console.log("ha ni tog")
+   showSatatus(value);
+    startGame=false;
+    restartGame();
+  }
+  else if(totolChances===0) {
+    console.log("chote")
+   showSatatus(randomNumber)
+    startGame=false;
+    restartGame();
+  } else {
+    startGame=false;
+    restartGame();
+  }
+}
+  // this is the function to restart the game 
+  function restartGame (){
+      resetBtn.addEventListener('click',(e)=>{
+        console.log("click on the resetar")
+               startGame=true;
+               totolChances=5;
+               inputConatiner.classList.remove("class",'remove');
+               resetCont.classList.remove('game-container');
+               prevGuess.innerHTML='<div id="showStatus"> Game is to be restarted ! </div>';
+               input.value=''
+        })
+  }
+
+
+</script>
+</html>
